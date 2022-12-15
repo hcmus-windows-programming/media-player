@@ -7,58 +7,75 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
 						 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
-	<Grid Margin="10">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height = "80" />
-			<RowDefinition Height = "*" />
-			<RowDefinition Height = "80" />
-		</Grid.RowDefinitions>
-		<DockPanel Grid.Column="0" Grid.Row="0" >
-			<TextBlock Height="20">My music</TextBlock>
-			<Button x:Name="addMusicFile" Click="addMusicFile_Click" Content="Add file" Height="40" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignRaisedLightButton}" />
-		</DockPanel>
-		<ListView Grid.Column="0" Grid.Row="1" x:Name="musicListView" BorderThickness="0"   ScrollViewer.VerticalScrollBarVisibility="Auto">
-			<ListView.View >
-				<GridView>
-					<GridViewColumn Header="Name" Width="350" DisplayMemberBinding="{Binding Name}"/>
-				</GridView>
-			</ListView.View>
-		</ListView>
-		<StackPanel Grid.Row="2">
-			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-				<Button
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "80" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "80" />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Column="0" Grid.Row="0" >
+            <TextBlock Height="20">My music</TextBlock>
+            <Button x:Name="addMusicFile" Click="addMusicFile_Click" Content="Add file" Height="40" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignRaisedLightButton}" />
+            <TextBox x:Name="txtGetFile" Margin="10,27,-10,384" Height="15"/>
+        </DockPanel>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <MediaElement MediaOpened="player_MediaOpened" MediaEnded="player_MediaEnded" LoadedBehavior="Manual" Name="player" Width="554" Height="266" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="119,0,0,0"/>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="1" x:Name="GridMain">
+            <ListView Grid.Column="0" Grid.Row="1" x:Name="musicListView" BorderThickness="0"   ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="musicListView_MouseDoubleClick">
+                <ListView.View >
+                    <GridView>
+                        <GridViewColumn Header="Name" Width="350" DisplayMemberBinding="{Binding Name}"/>
+                    </GridView>
+                </ListView.View>
+                <!--<ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter Event="MouseDoubleClick"
+                                     Handler="musicListView_MouseDoubleClick"/>
+                    </Style>
+                </ListView.Resources>-->
+            </ListView>
+
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                    <Button
 							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
 							Style="{StaticResource MaterialDesignIconButton}"
 							ToolTip="MaterialDesignIconButton">
-					<materialDesign:PackIcon Kind="SkipPrevious" />
-				</Button>
-				<Button
+                        <materialDesign:PackIcon Kind="SkipPrevious" />
+                    </Button>
+                    <Button
+							x:Name="playButton" Click="playButton_Click"
 							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
 							Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
 							ToolTip="MaterialDesignFloatingActionMiniLightButton" Margin="8">
-					<materialDesign:PackIcon
+                        <materialDesign:PackIcon
 								Width="24"
 								Height="24"
 								Kind="Play" />
-				</Button>
-				<Button
+                    </Button>
+                    <Button
 							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
 							Style="{StaticResource MaterialDesignIconButton}"
 							ToolTip="MaterialDesignIconButton">
-					<materialDesign:PackIcon Kind="SkipNext" />
-				</Button>
-			</StackPanel>
-			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-				<TextBlock Text="0:00"/>
-				<Slider
+                        <materialDesign:PackIcon Kind="SkipNext" />
+                    </Button>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="0:00"/>
+                    <Slider
 							Maximum="100"
 							Minimum="0"
 							Value="35" Width="400" />
-				<TextBlock Text="10:00"/>
-			</StackPanel>
-		</StackPanel>
-	</Grid>
+                    <TextBlock Text="10:00"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </UserControl>
