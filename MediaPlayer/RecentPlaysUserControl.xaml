@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MediaPlayerNameSpace"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="Window_Loaded">
 	<Grid>
 		<TextBlock>Recent plays</TextBlock>
+        <ListView x:Name="recentPlaysMusicListView" Margin="223,36,227,45"> </ListView>
 	</Grid>
 </UserControl>
