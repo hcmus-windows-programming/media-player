@@ -20,6 +20,7 @@ using System.IO;
 using Path = System.IO.Path;
 using System.Reflection;
 using System.Media;
+using System.Windows.Threading;
 
 namespace MediaPlayerNameSpace
 {
@@ -41,8 +42,11 @@ namespace MediaPlayerNameSpace
         public MyMusicUserControl()
         {
             InitializeComponent();
+            playButton.IsEnabled = false;
             skipNextButton.IsEnabled = false;
             skipPreviousButton.IsEnabled = false;
+            shuffleButton.IsEnabled = false;
+            repeatButton.IsEnabled = false;
         }
 
         public class Object : INotifyPropertyChanged
@@ -82,6 +86,7 @@ namespace MediaPlayerNameSpace
             }
         }
 
+        DispatcherTimer? _timer;
         private async void addMusicFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -103,7 +108,7 @@ namespace MediaPlayerNameSpace
                     if (listMusic != null)
                         filemusic += Path.GetFullPath(sFileName) + "\r";
                 }
-                System.IO.File.WriteAllText(@".\RecentPlays\recentPlaysList.txt", filemusic);
+                System.IO.File.WriteAllText(@"D:\Nam4\Window\Project2\MediaPlayer\RecentPlays\recentPlaysList.txt", filemusic);
 
                 musicListView.Items.Clear();
                 foreach (Object obj in Objects)
@@ -111,41 +116,64 @@ namespace MediaPlayerNameSpace
                     musicListView.Items.Add(obj);
                 }
             }
+            playButton.IsEnabled = true;
         }
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
             if (_playing)
             {
-                _mediaPlayer.Pause();
+                mediaElement.Pause();
                 _playing = false;
                 playIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Play;
+
+                _timer?.Stop();
             }
             else
             {
-                if (musicListView.SelectedItem != null && _mediaPlayer.Source == null)
+
+                if (musicListView.SelectedItem != null && mediaElement.Source == null)
                 {
                     Object play = (Object)musicListView.SelectedItem;
-                    _mediaPlayer.Open(new Uri($"{play.Dir}{play.Name}"));
-
-                    if (musicListView.SelectedIndex < Objects.Count - 1)
-                    {
-                        skipNextButton.IsEnabled = true;
-                    }
-
-                    if (musicListView.SelectedIndex > 0)
-                    {
-                        skipPreviousButton.IsEnabled = true;
-                    }
+                    mediaElement.Source = new Uri($"{play.Dir}{play.Name}");
                 }
 
-                if (_mediaPlayer.Source != null)
+                updateSkipButton();
+
+                if (mediaElement.Source != null)
                 {
-                    _mediaPlayer.Play();
+                    //while (!mediaElement.NaturalDuration.HasTimeSpan) { } // Đợi có timespan rồi chạy tiếp
+
+                    mediaElement_MediaOpened(sender, e);
+
+                    mediaElement.Play();
                     _playing = true;
                     playIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Pause;
+
+                    _timer = new DispatcherTimer();
+                    _timer.Tick += _timer_Tick;
+                    _timer.Start();
+
                 }
             }
+        }
+
+        private void _timer_Tick(object? sender, EventArgs e)
+        {
+            int hours = mediaElement.Position.Hours;
+            int minutes = mediaElement.Position.Minutes;
+            int seconds = mediaElement.Position.Seconds;
+
+            currentPosition.Text = $"{hours}:{minutes}:{seconds}";
+
+
+            //progressSlider.Value = _mediaPlayer.Position.TotalSeconds;
+
+            if (mediaElement.NaturalDuration.HasTimeSpan)
+            {
+                progressSlider.Value = mediaElement.Position.TotalSeconds;
+            }
+
         }
 
         private void skipNextButton_Click(object sender, RoutedEventArgs e)
@@ -155,20 +183,15 @@ namespace MediaPlayerNameSpace
             {
                 musicListView.SelectedIndex += 1;
                 index += 1;
-
-                if (index == Objects.Count - 1)
-                {
-                    skipNextButton.IsEnabled = false;
-                }
-
                 Object play = Objects[index];
-                _mediaPlayer.Open(new Uri($"{play.Dir}{play.Name}"));
-                skipPreviousButton.IsEnabled |= true;
+                mediaElement.Source = new Uri($"{play.Dir}{play.Name}");
+                updateSkipButton();
 
-                if (_playing)
-                {
-                    _mediaPlayer.Play();
-                }
+                _playing = false;
+
+                playButton_Click(sender, e);
+
+
             }
         }
 
@@ -179,57 +202,101 @@ namespace MediaPlayerNameSpace
             {
                 musicListView.SelectedIndex -= 1;
                 index -= 1;
-
-                if (index == 0)
-                {
-                    skipPreviousButton.IsEnabled = false;
-                }
-
                 Object play = Objects[index];
-                _mediaPlayer.Open(new Uri($"{play.Dir}{play.Name}"));
-                skipNextButton.IsEnabled |= true;
+                mediaElement.Source = new Uri($"{play.Dir}{play.Name}");
+                updateSkipButton();
 
-                if (_playing)
-                {
-                    _mediaPlayer.Play();
-                }
+                _playing = false;
+
+                playButton_Click(sender, e);
+
             }
         }
-
-        private void player_MediaEnded(object sender, RoutedEventArgs e)
+        private void updateSkipButton()
         {
+            int index = musicListView.SelectedIndex;
+            skipNextButton.IsEnabled = true;
+            skipPreviousButton.IsEnabled = true;
 
+            if (index == 0)
+            {
+                skipPreviousButton.IsEnabled = false;
+            }
+
+            if (index == Objects.Count - 1)
+            {
+                skipNextButton.IsEnabled = false;
+            }
         }
-
-        private void player_MediaOpened(object sender, RoutedEventArgs e)
+        private void progressSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            double value = progressSlider.Value;
+            TimeSpan newPostition = TimeSpan.FromSeconds(value);
 
+            mediaElement.Position = newPostition;
+        }
+        private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            if (mediaElement.NaturalDuration.HasTimeSpan)
+            {
+                int hours = mediaElement.NaturalDuration.TimeSpan.Hours;
+                int minutes = mediaElement.NaturalDuration.TimeSpan.Minutes;
+                int seconds = mediaElement.NaturalDuration.TimeSpan.Seconds;
+
+                totalPosition.Text = $"{hours}:{minutes}:{seconds}";
+
+                progressSlider.Maximum = mediaElement.NaturalDuration.TimeSpan.TotalSeconds;
+            }
         }
 
         private void musicListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (musicListView.SelectedItem != null)
+            int index = musicListView.SelectedIndex;
+
+            if (index >= 0 && index < Objects.Count)
             {
-                Object play = (Object)musicListView.SelectedItem;
-                _mediaPlayer.Open(new Uri($"{play.Dir}{play.Name}"));
-                _mediaPlayer.Play();
-                _playing = true;
-                playIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Pause;
+                _playing = false;
+                Object play = Objects[index];
+                mediaElement.Source = new Uri($"{play.Dir}{play.Name}");
 
-                if (musicListView.SelectedIndex < Objects.Count - 1)
-                {
-                    skipNextButton.IsEnabled = true;
-                }
-
-                if (musicListView.SelectedIndex > 0)
-                {
-                    skipPreviousButton.IsEnabled = true;
-                }
+                playButton_Click(sender, e);
             }
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             musicListView.Items.RemoveAt(musicListView.Items.IndexOf(musicListView.SelectedItem));
+        }
+
+        private void repeatButton_Click(object sender, RoutedEventArgs e)
+        {
+          
+        }
+
+        private void shuffleButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            int index = musicListView.SelectedIndex;
+            if (index < Objects.Count - 1)
+            {
+                musicListView.SelectedIndex += 1;
+                index += 1;
+                Object play = Objects[index];
+                _mediaPlayer.Open(new Uri($"{play.Dir}{play.Name}"));
+                updateSkipButton();
+                mediaElement.Source = new Uri($"{play.Dir}{play.Name}");
+
+                mediaElement_MediaOpened(sender, e);
+                mediaElement.Play();
+                _playing = true;
+                _timer = new DispatcherTimer();
+                _timer.Tick += _timer_Tick;
+                _timer.Start();
+
+            }
         }
     }
 }
