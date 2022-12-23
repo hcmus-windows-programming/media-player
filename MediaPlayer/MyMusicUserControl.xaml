@@ -50,50 +50,55 @@
 
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="56">
                     <Button
-							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
 							Style="{StaticResource MaterialDesignIconButton}"
-							ToolTip="MaterialDesignFloatingActionMiniLightButton" Margin="8"
-                            Background="Transparent"
-							Name ="repeatButton"
-							Click="repeatButton_Click">
-                        <materialDesign:PackIcon Kind="Repeat" />
+							ToolTip="Shuffle"
+                        
+							Background="Transparent"
+                            x:Name="shuffleButton"
+							Click="shuffleButton_Click">
+                        <materialDesign:PackIcon 
+                            x:Name="shuffleIcon"
+                            Kind="Shuffle" />
                     </Button>
                     <Button
-							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
 							Style="{StaticResource MaterialDesignIconButton}"
 							ToolTip="MaterialDesignIconButton"
-							Name ="skipPreviousButton"
+							x:Name ="skipPreviousButton"
 							Click="skipPreviousButton_Click">
                         <materialDesign:PackIcon Kind="SkipPrevious" />
                     </Button>
                     <Button
-							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
 							Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
 							ToolTip="MaterialDesignFloatingActionMiniLightButton" Margin="8"
-                            Name="playButton"
+                            x:Name="playButton"
 							Click="playButton_Click">
                         <materialDesign:PackIcon
-								Name="playIcon"
+								x:Name="playIcon"
 								Width="24"
 								Height="24"
 								Kind="Play" />
                     </Button>
                     <Button
-							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
 							Style="{StaticResource MaterialDesignIconButton}"
 							ToolTip="MaterialDesignIconButton"
-							Name="skipNextButton"
+							x:Name="skipNextButton"
 							Click="skipNextButton_Click">
                         <materialDesign:PackIcon Kind="SkipNext" />
                     </Button>
                     <Button
-							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
 							Style="{StaticResource MaterialDesignIconButton}"
-							ToolTip="MaterialDesignFloatingActionMiniLightButton" Margin="8"
-							Background="Transparent"
-                            Name="shuffleButton"
-							Click="shuffleButton_Click">
-                        <materialDesign:PackIcon Kind="Shuffle" />
+							ToolTip="Playback"
+                            Background="Transparent"
+							x:Name ="repeatButton"
+							Click="repeatButton_Click">
+                        <materialDesign:PackIcon
+                            x:Name="repeatIcon"
+                            Kind="RepeatOne" />
                     </Button>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
