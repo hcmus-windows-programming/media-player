@@ -7,50 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
 						 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
-    <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height = "80" />
-            <RowDefinition Height = "*" />
-            <RowDefinition Height = "80" />
-        </Grid.RowDefinitions>
-        <DockPanel Grid.Column="0" Grid.Row="0" >
-            <TextBlock Height="20">My music</TextBlock>
-            <Button x:Name="addMusicFile" Click="addMusicFile_Click" Content="Add file" Height="40" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
-        </DockPanel>
-        <Grid Grid.Column="0" Grid.Row="1" x:Name="GridMain">
-            <MediaElement Name="mediaElement" MediaOpened="mediaElement_MediaOpened" MediaEnded="mediaElement_MediaEnded" LoadedBehavior="Manual" DockPanel.Dock="Left"/>
-            <ListView Grid.Column="0" Grid.Row="1" x:Name="musicListView" BorderThickness="0"   ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="musicListView_MouseDoubleClick">
-                <ListView.View >
+	<Grid Margin="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height = "80" />
+			<RowDefinition Height = "*" />
+			<RowDefinition Height = "80" />
+		</Grid.RowDefinitions>
+		<DockPanel Grid.Column="0" Grid.Row="0" >
+			<TextBlock Height="20">My music</TextBlock>
+			<Button x:Name="addMusicFile" Click="addMusicFile_Click" Content="Add file" Height="40" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignRaisedLightButton}" />
+		</DockPanel>
+        <DockPanel Grid.Column="0" Grid.Row="1">
+            <MediaElement Name="mediaElement" MediaOpened="mediaElement_MediaOpened" LoadedBehavior="Manual" DockPanel.Dock="Left"/>
+            <ListView x:Name="musicListView" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionChanged="musicListView_SelectionChanged" Margin="10, 0, 0, 0">
+                <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Name" Width="350" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Name" Width="400" DisplayMemberBinding="{Binding Name}"/>
                     </GridView>
                 </ListView.View>
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Delete" Click="MenuItem_Click"></MenuItem>
-                    </ContextMenu>
-                </ListView.ContextMenu>
-                <!--<ListView.Resources>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <EventSetter Event="MouseDoubleClick"
-                                     Handler="musicListView_MouseDoubleClick"/>
-                    </Style>
-                </ListView.Resources>-->
             </ListView>
-
-
-        </Grid>
-        <Grid Grid.Row="2">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                </StackPanel>
-
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="56">
-                    <Button
-							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+        </DockPanel>
+		
+		<StackPanel Grid.Row="2">
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <Button
+							IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
 							Style="{StaticResource MaterialDesignIconButton}"
 							ToolTip="Shuffle"
                         
