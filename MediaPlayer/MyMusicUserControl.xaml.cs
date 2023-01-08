@@ -98,6 +98,15 @@ namespace MediaPlayerNameSpace
             skipNextButton.IsEnabled = true;
             skipPreviousButton.IsEnabled = true;
 
+            if (index == -1)
+            {
+                _playing = false;
+                playIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Play;
+                skipPreviousButton.IsEnabled = false;
+                skipNextButton.IsEnabled = false;
+                return;
+            }
+
             if (index == 0)
             {
                 skipPreviousButton.IsEnabled = false;
@@ -264,7 +273,10 @@ namespace MediaPlayerNameSpace
             if (index == currIndex)
             {
                 mediaElement.Source = null;
-                playButton_Click(sender, e);
+                playIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Play;
+                updateButton();
+                //_playing = false;
+                //playButton_Click(sender, e);
             }
             Objects.RemoveAt(index);
         }

@@ -57,7 +57,7 @@ namespace MediaPlayerNameSpace
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             personPath = Path.GetFullPath(filename);
-            foreach (string line in File.ReadAllLines(personPath))
+            foreach (string line in listFileMusic)
             {
                 string[] temp = line.Split('|');
                 if (File.Exists(@$"{temp[0]}{temp[1]}"))
@@ -68,7 +68,7 @@ namespace MediaPlayerNameSpace
                         Name = temp[1],
                         Extension = temp[2]
                     });
-                    listFileMusic.Add(line);
+                    //listFileMusic.Add(line);
                     for (int i = 0; i < Objects.Count; i++)
                     {
                         for (int j = i + 1; j < Objects.Count; j++)
@@ -85,6 +85,11 @@ namespace MediaPlayerNameSpace
             {
                 musicListView.Items.Add(obj);
             }
+            playButton.IsEnabled = true;
+            shuffleButton.IsEnabled = true;
+            repeatButton.IsEnabled = true;
+            repeatIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.RepeatOff;
+            shuffleIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.ShuffleDisabled;
         }
 
         private void updateButton()
@@ -92,6 +97,15 @@ namespace MediaPlayerNameSpace
             int index = musicListView.SelectedIndex;
             skipNextButton.IsEnabled = true;
             skipPreviousButton.IsEnabled = true;
+
+            if (index == -1)
+            {
+                _playing = false;
+                playIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Play;
+                skipPreviousButton.IsEnabled = false;
+                skipNextButton.IsEnabled = false;
+                return;
+            }
 
             if (index == 0)
             {
@@ -255,11 +269,15 @@ namespace MediaPlayerNameSpace
             musicListView.Items.RemoveAt(musicListView.Items.IndexOf(musicListView.SelectedItem));
             Object temp = Objects[index];
             listFileMusic.Remove($"{temp.Dir}|{temp.Name}|{temp.Extension}");
+            File.WriteAllText(personPath, string.Empty);
             File.WriteAllLines(personPath, listFileMusic);
             if (index == currIndex)
             {
                 mediaElement.Source = null;
-                playButton_Click(sender, e);
+                playIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Play;
+                updateButton();
+                //_playing = false;
+                //playButton_Click(sender, e);
             }
             Objects.RemoveAt(index);
         }
