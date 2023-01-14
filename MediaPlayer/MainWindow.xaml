@@ -95,8 +95,8 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Button Height="90" Background="Transparent" BorderBrush="Transparent">
                     <StackPanel Width="auto" Grid.Column="0" Orientation="Horizontal">

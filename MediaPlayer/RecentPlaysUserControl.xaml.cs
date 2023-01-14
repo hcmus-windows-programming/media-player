@@ -25,7 +25,7 @@ namespace MediaPlayerNameSpace
     /// <summary>
     /// Interaction logic for RecentPlaysUserControl.xaml
     /// </summary>
-    public partial class RecentPlaysUserControl : UserControl
+    public partial class RecentPlaysUserControl 
     {
         public delegate void MusicChangedHandler(ObservableCollection<Object> newObjects, int newIndex);
         public event MusicChangedHandler MusicsChanged;

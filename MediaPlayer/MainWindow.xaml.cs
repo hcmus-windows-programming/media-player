@@ -66,21 +66,30 @@ namespace MediaPlayerNameSpace
 			menuWidth.Width = new GridLength(60);
 		}
 
-		private void listViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void listViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			GridMain.Children.Clear();
 			switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
 			{
 				case "MyMusicItem":
                     var screen1 = new MyMusicUserControl(Objects, _index);
-                    GridMain.Children.Add(screen1);
-                    screen1.MusicsChanged += (newObjects, newIndex) =>
+                    screen1.IndexChanged += (newIndex) =>
                     {
-                        Objects = newObjects;
                         _index = newIndex;
+                        playMusic(sender, e, _index);
                     };
 
-					break;
+                    screen1.MusicsChanged += (newObjects) =>
+                    {
+                        Objects = newObjects;
+                    };
+
+                    
+                    GridMain.Children.Add(screen1);
+
+                    break;
 				//case "RecentPlaysItem":
     //                var screen2 = new RecentPlaysUserControl(newObjects);
     //                GridMain.Children.Add(screen2);
@@ -95,16 +104,22 @@ namespace MediaPlayerNameSpace
 					break;
 				default:
                     var screen = new MyMusicUserControl(Objects, _index);
-                    GridMain.Children.Add(screen);
-                    screen.MusicsChanged += (newObjects, newIndex) =>
+                    screen.MusicsChanged += (newObjects) =>
                     {
                         Objects = newObjects;
-                        _index = newIndex;
-
                     };
+
+                    screen.IndexChanged += (newIndex) =>
+                    {
+                        _index = newIndex;
+                        playMusic(sender, e, _index);
+                    };
+                    GridMain.Children.Add(screen);
                     break;
-			}
-		}
+
+
+            }
+        }
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -117,15 +132,20 @@ namespace MediaPlayerNameSpace
             skipPreviousButton.IsEnabled = false;
             shuffleButton.IsEnabled = false;
             repeatButton.IsEnabled = false;
+            _shuffle = false;
 
 
             GridMain.Children.Clear();
             var screen = new MyMusicUserControl(Objects, _index);
             GridMain.Children.Add(screen);
-            screen.MusicsChanged += (NewObjects, newIndex) =>
+            screen.MusicsChanged += (NewObjects) =>
             {
                 Objects = NewObjects;
+            };
+            screen.IndexChanged += (newIndex) =>
+            {
                 _index = newIndex;
+                playMusic(sender, e, _index);
             };
         }
 
