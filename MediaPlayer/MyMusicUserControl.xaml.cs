@@ -105,5 +105,15 @@ namespace MediaPlayerNameSpace
             }
 
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            //musicListView.SelectedIndex = MainWindow._index;
+            MainWindow.IndexChanged += (newIndex) =>
+            {
+                oldIndex = newIndex;
+                musicListView.SelectedIndex = newIndex;
+            };
+        }
     }
 }

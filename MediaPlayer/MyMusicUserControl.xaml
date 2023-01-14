@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MediaPlayerNameSpace"
              mc:Ignorable="d" 
              d:DesignHeight="432.839" d:DesignWidth="824.788"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" >
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Loaded="UserControl_Loaded" >
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

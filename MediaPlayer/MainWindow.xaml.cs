@@ -30,6 +30,9 @@ namespace MediaPlayerNameSpace
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+        public delegate void IndexChangedHandler(int newIndex);
+        public static event IndexChangedHandler IndexChanged;
+
         public ObservableCollection<Object> Objects  = new ObservableCollection<Object>();
         public static int _index { get; set; } = -1;
         private bool _playing = false;
@@ -224,6 +227,12 @@ namespace MediaPlayerNameSpace
             _timer.Tick += _timer_Tick;
             _timer.Start();
             _index = index;
+            
+            if (IndexChanged != null)
+            {
+                IndexChanged.Invoke(_index);
+            }
+
             updateButton();
         }
 
