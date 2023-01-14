@@ -21,6 +21,7 @@ using System.Media;
 using System.Threading;
 using System.Windows.Threading;
 using Path = System.IO.Path;
+using System.Xml.Linq;
 
 
 namespace MediaPlayerNameSpace
@@ -211,6 +212,10 @@ namespace MediaPlayerNameSpace
             DataContext = wrapper;
             personPath = Path.GetFullPath(filename);
             listFileMusic = new List<string>(File.ReadAllLines(personPath));
+            repeatIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.RepeatOff;
+            shuffleIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.ShuffleDisabled;
+
+
 
             // Khởi tạo các button
             //playButton.IsEnabled = false;
@@ -472,6 +477,14 @@ namespace MediaPlayerNameSpace
 
                 progressSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalSeconds;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //GridMain.Children.Clear();
+            //this.RemoveLogicalChild(myMediaElement);
+            //this.RemoveVisualChild(myMediaElement);
+            //GridMain.Children.Add(myMediaElement);
         }
     }
 }

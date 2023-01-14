@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Lập trình Window\Project_02\media-player-main\MediaPlayer\obj\Debug\net7.0-windows\
+C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\MediaPlayer\obj\Debug\net7.0-windows\
 MediaPlayer
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-D:\Lập trình Window\Project_02\media-player-main\MediaPlayer\App.xaml
-4-1905870680
+C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\MediaPlayer\App.xaml
+71420536101
 12122485645
-8205882695
-201-1219349699
-MainWindow.xaml;MyMusicUserControl.xaml;PlaylistsUserControl.xaml;RecentPlaysUserControl.xaml;
+111840399838
+201978950943
+MainWindow.xaml;MusicScreen.xaml;MyMusicUserControl.xaml;NewPlayListWindow.xaml;PlayListSelect.xaml;PlaylistsUserControl.xaml;RecentPlaysUserControl.xaml;
 
 False
 
