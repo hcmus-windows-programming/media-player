@@ -4,9 +4,8 @@
              xmlns:local="clr-namespace:MediaPlayerNameSpace"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-		<ResourceDictionary>
-
-			<ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
 				<!--Basic Material Design theme-->
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />

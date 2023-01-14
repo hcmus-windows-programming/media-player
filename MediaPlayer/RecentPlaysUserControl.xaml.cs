@@ -27,24 +27,24 @@ namespace MediaPlayerNameSpace
     /// </summary>
     public partial class RecentPlaysUserControl : UserControl
     {
-
-        public delegate void MusicChangedHandler(MusicList musics);
+        public delegate void MusicChangedHandler(ObservableCollection<Object> newObjects, int newIndex);
         public event MusicChangedHandler MusicsChanged;
 
         string filename = @"RecentPlays//recentPlaysList.txt";
         string personPath;
         List<string> listFileMusic;
+        ObservableCollection<Object> oldObjects;
 
-        MusicList oldMusic;
-        public RecentPlaysUserControl(MusicList newMusics)
+        public RecentPlaysUserControl(ObservableCollection<Object> newObjects, int newIndex)
         {
             InitializeComponent();
-            oldMusic = newMusics;
+            oldObjects = newObjects;
             
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MusicList newMusics = new MusicList();
+            ObservableCollection<Object> newObjects = new ObservableCollection<Object>();
+
             personPath = Path.GetFullPath(filename);
             listFileMusic = new List<string>(File.ReadAllLines(personPath));
 
@@ -54,33 +54,33 @@ namespace MediaPlayerNameSpace
                 string[] temp = line.Split('|');
                 if (File.Exists(@$"{temp[0]}{temp[1]}{temp[2]}"))
                 {
-                    newMusics.Objects.Add(new Object
+                    newObjects.Add(new Object
                     {
                         Dir = temp[0],
                         Name = temp[1],
                         Extension = temp[2]
                     });
-                    for (int i = 0; i < newMusics.Objects.Count; i++)
+                    for (int i = 0; i < newObjects.Count; i++)
                     {
-                        for (int j = i + 1; j < newMusics.Objects.Count; j++)
+                        for (int j = i + 1; j < newObjects.Count; j++)
                         {
-                            if (newMusics.Objects[i].Name == newMusics.Objects[j].Name)
-                                newMusics.Objects.Remove(newMusics.Objects[j]);
+                            if (newObjects[i].Name == newObjects[j].Name)
+                                newObjects.Remove(newObjects[j]);
                         }
                     }
                 }
             }
 
             musicListView.Items.Clear();
-            foreach (Object obj in newMusics.Objects)
+            foreach (Object obj in newObjects)
             {
                 musicListView.Items.Add(obj);
             }
 
             if (MusicsChanged != null)
-            {
-                MusicsChanged.Invoke(newMusics);
-                oldMusic = newMusics;
+            {   
+                MusicsChanged.Invoke(newObjects, 0);
+                oldObjects = newObjects;
             }
             
         }

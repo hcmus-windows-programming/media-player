@@ -30,8 +30,9 @@ namespace MediaPlayerNameSpace
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-        private MusicList musics;
-		private bool _playing = false;
+        public ObservableCollection<Object> Objects  = new ObservableCollection<Object>();
+        public static int _index { get; set; } = -1;
+        private bool _playing = false;
 		private bool _shuffle = false;
         DispatcherTimer? _timer;
 		private List<string> listFileMusic;
@@ -44,7 +45,6 @@ namespace MediaPlayerNameSpace
             repeatall
         }
         private int repeat = (int)repeatMode.unrepeat;
-        //public int _index { get; set; } = -1;
 
 
         public MainWindow()
@@ -72,32 +72,35 @@ namespace MediaPlayerNameSpace
 			switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
 			{
 				case "MyMusicItem":
-                    var screen1 = new MyMusicUserControl(musics);
+                    var screen1 = new MyMusicUserControl(Objects, _index);
                     GridMain.Children.Add(screen1);
-                    screen1.MusicsChanged += (newMusics) =>
+                    screen1.MusicsChanged += (newObjects, newIndex) =>
                     {
-                        musics = newMusics;
+                        Objects = newObjects;
+                        _index = newIndex;
                     };
 
 					break;
-				case "RecentPlaysItem":
-                    var screen2 = new RecentPlaysUserControl(musics);
-                    GridMain.Children.Add(screen2);
-                    screen2.MusicsChanged += (newMusics) =>
-                    {
-                        musics = newMusics;
-                    };
+				//case "RecentPlaysItem":
+    //                var screen2 = new RecentPlaysUserControl(newObjects);
+    //                GridMain.Children.Add(screen2);
+    //                screen2.MusicsChanged += (newMusics) =>
+    //                {
+    //                    Objects = newMusics;
+    //                };
 
-					break;
+				//	break;
 				case "PlaylistsItem":
 					GridMain.Children.Add(new PlaylistsUserControl());
 					break;
 				default:
-                    var screen = new MyMusicUserControl(musics);
+                    var screen = new MyMusicUserControl(Objects, _index);
                     GridMain.Children.Add(screen);
-                    screen.MusicsChanged += (newMusics) =>
+                    screen.MusicsChanged += (newObjects, newIndex) =>
                     {
-                        musics = newMusics;
+                        Objects = newObjects;
+                        _index = newIndex;
+
                     };
                     break;
 			}
@@ -117,11 +120,12 @@ namespace MediaPlayerNameSpace
 
 
             GridMain.Children.Clear();
-            var screen = new MyMusicUserControl(musics);
+            var screen = new MyMusicUserControl(Objects, _index);
             GridMain.Children.Add(screen);
-            screen.MusicsChanged += (newMusics) =>
+            screen.MusicsChanged += (NewObjects, newIndex) =>
             {
-                musics = newMusics;
+                Objects = NewObjects;
+                _index = newIndex;
             };
         }
 
@@ -132,7 +136,7 @@ namespace MediaPlayerNameSpace
             shuffleButton.IsEnabled = true;
             repeatButton.IsEnabled = true;
 
-            if (musics.index == -1)
+            if (_index == -1)
             {
                 _playing = false;
                 playIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Play;
@@ -141,12 +145,12 @@ namespace MediaPlayerNameSpace
                 return;
             }
 
-            if (musics.index == 0)
+            if (_index == 0)
             {
                 skipPreviousButton.IsEnabled = false;
             }
 
-            if (musics.index == musics.Objects.Count - 1 && _shuffle == false)
+            if (_index == Objects.Count - 1 && _shuffle == false)
             {
                 skipNextButton.IsEnabled = false;
             }
@@ -183,7 +187,7 @@ namespace MediaPlayerNameSpace
 
         private void playMusic(object sender, RoutedEventArgs e, int index)
 		{
-            Object play = musics.Objects[index];
+            Object play = Objects[index];
             myMediaElement.Source = new Uri($"{play.Dir}{play.Name}{play.Extension}");
             musicName.Text = play.Name;
 
@@ -199,13 +203,13 @@ namespace MediaPlayerNameSpace
             _timer = new DispatcherTimer();
             _timer.Tick += _timer_Tick;
             _timer.Start();
-            musics.index = index;
+            _index = index;
             updateButton();
         }
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
-            if (musics.Objects.Count > 0)
+            if (Objects.Count > 0)
             {
                 if (_playing)
                 {
@@ -218,8 +222,8 @@ namespace MediaPlayerNameSpace
                 {
                     if (myMediaElement.Source == null)
                     {
-                        musics.index = 0;
-                        playMusic(sender, e, musics.index);
+                        _index = 0;
+                        playMusic(sender, e, _index);
                     }
 
                     if (myMediaElement.Source != null)
@@ -240,12 +244,12 @@ namespace MediaPlayerNameSpace
         private void shuffleMode(object sender, RoutedEventArgs e)
         {
             Random random = new Random();
-            int number = musics.Objects.Count;
+            int number = Objects.Count;
             int init;
             do
             {
                 init = random.Next(number);
-            } while (init == musics.index);
+            } while (init == _index);
 
             playMusic(sender, e, init);
         }
@@ -258,11 +262,11 @@ namespace MediaPlayerNameSpace
             }
             else
             {
-                int index = musics.index;
+                int index = _index;
                 index += 1;
                 if (repeat == (int)repeatMode.repeatall)
                 {
-                    index %= musics.Objects.Count;
+                    index %= Objects.Count;
                 }
                 else if (repeat == (int)repeatMode.repeatone)
                 {
@@ -303,11 +307,11 @@ namespace MediaPlayerNameSpace
             }
             else
             {
-                int index = musics.index;
+                int index = _index;
                 index -= 1;
                 if (repeat == (int)repeatMode.repeatall)
                 {
-                    index = (index + musics.Objects.Count) % musics.Objects.Count;
+                    index = (index + Objects.Count) % Objects.Count;
                 }
                 else if (repeat == (int)repeatMode.repeatone)
                 {

@@ -27,7 +27,7 @@ namespace MediaPlayerNameSpace
     /// <summary>
     /// Interaction logic for PlaylistsUserControl.xaml
     /// </summary>
-    public partial class PlaylistsUserControl : UserControl
+    public partial class PlaylistsUserControl
     {
 
         List<string> listFileMusic;

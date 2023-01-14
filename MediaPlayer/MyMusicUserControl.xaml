@@ -20,17 +20,18 @@
             <Button x:Name="addMusicFile" Click="addMusicFile_Click" Content="Add file" Height="40" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignRaisedLightButton}" />
         </DockPanel>
         <DockPanel Grid.Column="0" Grid.Row="1">
-            <ListView x:Name="musicListView" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10, 0, 0, 0" SelectedIndex="{Binding index}">
-                <!--<ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Delete" MenuItem.Click="MenuItem_Click" ></MenuItem>
+            <ListView x:Name="musicListView" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10, 0, 0, 0" SelectedIndex="{Binding Path=oldIndex}">
+                <ListView.Resources>
+                    <ContextMenu x:Key="musicsContextMenu">
+                        <MenuItem Header="Remove" MenuItem.Click="MenuRemoveItem_Click"/>
                     </ContextMenu>
-                </ListView.ContextMenu>-->
+                </ListView.Resources>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Name" Width="400" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
                     </GridView>
                 </ListView.View>
+
             </ListView>
         </DockPanel>
     </Grid>
