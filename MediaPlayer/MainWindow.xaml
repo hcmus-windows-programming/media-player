@@ -114,6 +114,7 @@
                         <MediaElement Name="myMediaElement"
 										LoadedBehavior="Manual"
                                         MediaOpened="myMediaElement_MediaOpened"
+                                        MediaEnded="myMediaElement_MediaEnded"
 										Width="120"
 										Height="70" />
                         <TextBlock x:Name="musicName" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="5, 0, 0, 0" Text=""></TextBlock>

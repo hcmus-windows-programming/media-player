@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "d6GwcwKYhIOpaf95KQ9JqHh29yKaDKg2i8EhbMdt/YxcubYQYK3jihJizrFSGPqMGssrNK2YppOV9geJ8zColw==",
+  "dgSpecHash": "g1bTy66ERfBQIdywp0N3osCWkTjNHrgUiZ2QLly/NGmKr3CjKABdFwXZCy1lpoRcnNTdyRv/akGWeubSRf86xQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ngoxu\\OneDrive - VNU-HCMUS\\HCMUS\\Term5\\LapTrinhWindows-20_3\\Project2\\MediaPlayer\\MediaPlayer.csproj",
+  "projectFilePath": "D:\\Nam4\\Window\\Project2\\MediaPlayer\\MediaPlayer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ngoxu\\.nuget\\packages\\fody\\6.6.4\\fody.6.6.4.nupkg.sha512",
-    "C:\\Users\\ngoxu\\.nuget\\packages\\materialdesigncolors\\2.0.9\\materialdesigncolors.2.0.9.nupkg.sha512",
-    "C:\\Users\\ngoxu\\.nuget\\packages\\materialdesignthemes\\4.6.1\\materialdesignthemes.4.6.1.nupkg.sha512",
-    "C:\\Users\\ngoxu\\.nuget\\packages\\propertychanged.fody\\4.1.0\\propertychanged.fody.4.1.0.nupkg.sha512"
+    "C:\\Users\\DMC\\.nuget\\packages\\fody\\6.6.4\\fody.6.6.4.nupkg.sha512",
+    "C:\\Users\\DMC\\.nuget\\packages\\materialdesigncolors\\2.0.9\\materialdesigncolors.2.0.9.nupkg.sha512",
+    "C:\\Users\\DMC\\.nuget\\packages\\materialdesignthemes\\4.6.1\\materialdesignthemes.4.6.1.nupkg.sha512",
+    "C:\\Users\\DMC\\.nuget\\packages\\propertychanged.fody\\4.1.0\\propertychanged.fody.4.1.0.nupkg.sha512"
   ],
   "logs": []
 }
