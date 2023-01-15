@@ -575,7 +575,45 @@ namespace MediaPlayerNameSpace
 
         private void myMediaElement_MediaEnded(object sender, RoutedEventArgs e)
         {
-            skipNextButton_Click(sender, e);
+            if (_shuffle != true)
+            {
+                if (repeat == (int)repeatMode.repeatone)
+                {
+                    int index = _index;
+                    playMusic(sender, e, index);
+                }
+
+                if (repeat == (int)repeatMode.unrepeat)
+                {
+                    int index = _index;
+                    if (index < Objects.Count - 1)
+                    {
+                        _index += 1;
+                        index += 1;
+                        playMusic(sender, e, index);
+                    }
+                }
+
+                if (repeat == (int)repeatMode.repeatall)
+                {
+                    int index = _index + 1;
+                    index %= Objects.Count;
+                    playMusic(sender, e, index);
+                }
+            }
+            else
+            {
+                if (repeat == (int)repeatMode.unrepeat || repeat == (int)repeatMode.repeatall)
+                {
+                    shuffleMode(sender, e);
+                }
+
+                if (repeat == (int)repeatMode.repeatone)
+                {
+                    int index = _index;
+                    playMusic(sender, e, index);
+                }
+            }
         }
     }
 }
