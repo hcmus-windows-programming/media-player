@@ -80,3 +80,6 @@ C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\Me
 C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\MediaPlayer\obj\Debug\net7.0-windows\ref\MediaPlayer.dll
 C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\MediaPlayer\obj\Debug\net7.0-windows\MusicScreen.g.cs
 C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\MediaPlayer\obj\Debug\net7.0-windows\MusicScreen.baml
+C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\MediaPlayer\obj\Debug\net7.0-windows\SearchMusic.g.cs
+C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\MediaPlayer\obj\Debug\net7.0-windows\SearchMusic.baml
+C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\MediaPlayer\bin\Debug\net7.0-windows\RecentPlays\musics.txt

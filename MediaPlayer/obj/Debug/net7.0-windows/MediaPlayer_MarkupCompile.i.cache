@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 C:\Users\ngoxu\OneDrive - VNU-HCMUS\HCMUS\Term5\LapTrinhWindows-20_3\Project2\MediaPlayer\App.xaml
-71420536101
+8-829370360
 12122485645
-13-1320681111
+14718017447
 201978950943
-MainWindow.xaml;MusicScreen.xaml;MyMusicUserControl.xaml;NewPlayListWindow.xaml;PlayListSelect.xaml;PlaylistsUserControl.xaml;RecentPlaysUserControl.xaml;
+MainWindow.xaml;MusicScreen.xaml;MyMusicUserControl.xaml;NewPlayListWindow.xaml;PlayListSelect.xaml;PlaylistsUserControl.xaml;RecentPlaysUserControl.xaml;SearchMusic.xaml;
 
-True
+False
 
