@@ -135,6 +135,45 @@ namespace MediaPlayerNameSpace
             GridMain.Children.Add(screen);
         }
 
+        private void loadMusic()
+        {
+            string curPath = Path.GetFullPath(@"RecentPlays//musics.txt");
+            List<string> temp = new List<string>(File.ReadAllLines(curPath));
+
+            foreach (string line in temp)
+            {
+                string[] cur = line.Split('|');
+                if (File.Exists($@"{cur[0]}{cur[1]}{cur[2]}"))
+                {
+                    Objects.Add(new Object
+                    {
+                        Dir = cur[0],
+                        Name = cur[1],
+                        Extension = cur[2]
+                    });
+
+                    for (int i = 0; i < Objects.Count; i++)
+                    {
+                        for (int j = i + 1; j < Objects.Count; j++)
+                        {
+                            if (Objects[i].Name == Objects[j].Name)
+                            {
+                                Objects.Remove(Objects[j]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //File.WriteAllText(curPath, "");
+            List<string> strs = new List<string>();
+            foreach (var obj in Objects)
+            {
+                strs.Add($"{obj.Dir}|{obj.Name}|{obj.Extension}");
+            }
+            File.WriteAllLines(curPath, strs);
+        }
+
         private void listViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			GridMain.Children.Clear();
@@ -146,41 +185,7 @@ namespace MediaPlayerNameSpace
             {
                 case "SearchMusicItem":
 
-                    string curPath = Path.GetFullPath(@"RecentPlays//musics.txt");
-                    List<string> temp = new List<string>(File.ReadAllLines(curPath));
-
-                    foreach (string line in temp)
-                    {
-                        string[] cur = line.Split('|');
-                        if (File.Exists($@"{cur[0]}{cur[1]}{cur[2]}"))
-                        {
-                            Objects.Add(new Object
-                            {
-                                Dir = cur[0],
-                                Name = cur[1],
-                                Extension = cur[2]
-                            });
-
-                            for (int i = 0; i < Objects.Count; i++)
-                            {
-                                for (int j = i + 1; j < Objects.Count; j++)
-                                {
-                                    if (Objects[i].Name == Objects[j].Name)
-                                    {
-                                        Objects.Remove(Objects[j]);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    //File.WriteAllText(curPath, "");
-                    List<string> strs = new List<string>();
-                    foreach (var obj in Objects)
-                    {
-                        strs.Add($"{obj.Dir}|{obj.Name}|{obj.Extension}");
-                    }
-                    File.WriteAllLines(curPath, strs);
+                    loadMusic();
 
                     var screen4 = new SearchMusic(Objects, Keywork);
                     screen4.MusicsChanged += (newObjects) =>
@@ -199,6 +204,7 @@ namespace MediaPlayerNameSpace
 
                     break;
                 case "MyMusicItem":
+                    loadMusic();
                     var screen1 = new MyMusicUserControl(Objects);
                     screen1.IndexChanged += (newIndex) =>
                     {
@@ -248,6 +254,7 @@ namespace MediaPlayerNameSpace
                     GridMain.Children.Add(screen3);
 					break;
 				default:
+                    loadMusic();
                     var screen = new MyMusicUserControl(Objects);
                     screen.MusicsChanged += (newObjects) =>
                     {
@@ -289,6 +296,7 @@ namespace MediaPlayerNameSpace
 
 
             GridMain.Children.Clear();
+            loadMusic();
             var screen = new MyMusicUserControl(Objects);
             GridMain.Children.Add(screen);
             screen.MusicsChanged += (NewObjects) =>
